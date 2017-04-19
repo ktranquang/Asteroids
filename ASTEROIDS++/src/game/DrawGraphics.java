@@ -23,64 +23,67 @@ public class DrawGraphics extends MainGame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	// Font data.
-	Font font = new Font("Helvetica", Font.BOLD, 12);
-	FontMetrics fm;
-	int fontWidth;
-	int fontHeight;
 
-	Image img;
-	public BufferedImage player1;
+	private EventHandler handler;
+	private Image img;
+
+	// Font data.
+	private Font font = new Font("Helvetica", Font.BOLD, 12);
+	private FontMetrics fm;
+	private int fontWidth;
+	private int fontHeight;
+
+	private BufferedImage player1;
 	private BufferedImage player1Acc;
-	public BufferedImage player2;
+	private BufferedImage player2;
 	private BufferedImage player2Acc;
 	private BufferedImage help;
-	BufferedImage accUserSpaceshipLeft1;
-	BufferedImage accUserSpaceshipRight1;
-	BufferedImage lives;
-	BufferedImage p2lives;
-	public BufferedImage asteroid1;
-	public BufferedImage asteroid2;
-	public BufferedImage asteroid3;
-	BufferedImage laser;
-	BufferedImage dbLaserb;
-	BufferedImage dbLaserr;
-	BufferedImage penLaser;
-	BufferedImage shield33;
-	BufferedImage shield23;
-	BufferedImage shield13;
-	BufferedImage shield03;
-	public BufferedImage ufo;
-	BufferedImage background1;
-	BufferedImage background2;
-	BufferedImage background3;
-	BufferedImage background4;
-	BufferedImage background5;
+	private BufferedImage accUserSpaceshipLeft1;
+	private BufferedImage accUserSpaceshipRight1;
+	private BufferedImage lives;
+	private BufferedImage p2lives;
+	private BufferedImage asteroid1;
+	private BufferedImage asteroid2;
+	private BufferedImage asteroid3;
+	private BufferedImage laser;
+	private BufferedImage dbLaserb;
+	private BufferedImage dbLaserr;
+	private BufferedImage penLaser;
+	private BufferedImage shield33;
+	private BufferedImage shield23;
+	private BufferedImage shield13;
+	private BufferedImage shield03;
+	private BufferedImage ufo;
+	private BufferedImage background1;
+	private BufferedImage background2;
+	private BufferedImage background3;
+	private BufferedImage background4;
+	private BufferedImage background5;
 	private Explosion explosion;
 
-	public BufferedImage shieldPick;
-	BufferedImage laserPick;
-	BufferedImage penLaserPick;
+	private BufferedImage shieldPick;
+	private BufferedImage laserPick;
+	private BufferedImage penLaserPick;
 	private BufferedImage gameOver;
 
 	public BufferedImage cursor;
-	public Graphics2D g;
-	Spaceship firstPlayer;
+	private Graphics2D g;
+	private Spaceship firstPlayer;
 	private Spaceship secondPlayer;
-	ArrayList<Shot> shots;
-	ArrayList<Shot> ufoShots;
-	ArrayList<Asteroid> asteroids;
-	ArrayList<Spaceship> UFOs;
-	public Image[] explosionFrames = new Image[23];
-	public Image[] AstexplosionFrames = new Image[4];
-	float targetAng;
-	public MainGame main;
+	private ArrayList<Shot> shots;
+	private ArrayList<Shot> ufoShots;
+	private ArrayList<Asteroid> asteroids;
+	private ArrayList<Spaceship> UFOs;
+	private  Image[] explosionFrames = new Image[23];
+	private Image[] astExplosionFrames = new Image[4];
+	private float targetAng;
+	private MainGame main;
 
 	// constructor of graphic class
 	public DrawGraphics(Image img, Spaceship firstPlayer,
 			Spaceship secondPlayer, ArrayList<Shot> shots,
 			ArrayList<Asteroid> asteroids, ArrayList<Spaceship> UFOs,
-			ArrayList<Shot> ufoShots, MainGame main) {
+			ArrayList<Shot> ufoShots, MainGame main, EventHandler handler) {
 		this.img = img;
 		g = (Graphics2D) img.getGraphics();
 		this.main = main;
@@ -91,6 +94,7 @@ public class DrawGraphics extends MainGame {
 		this.UFOs = UFOs;
 		this.ufoShots = ufoShots;
 		this.explosion = new Explosion();
+		this.handler = handler;
 		loadImages();
 	}
 
@@ -101,7 +105,7 @@ public class DrawGraphics extends MainGame {
 				explosionFrames[i] = loadImage("frame" + (i + 1) + ".png");
 			}
 			for (int i = 0; i < 4; i++) {
-				AstexplosionFrames[i] = loadImage("aframe" + (i + 1) + ".png");
+				astExplosionFrames[i] = loadImage("aframe" + (i + 1) + ".png");
 			}
 			player1 = loadImage("Player1.png");
 			player1Acc = loadImage("Player1Acc.png");
@@ -184,7 +188,7 @@ public class DrawGraphics extends MainGame {
 			drawShots(ufoShots);
 			drawAsteroids(asteroids);
 			drawUFOs(UFOs);
-			drawPowerUps(powerUps);
+			drawPowerUps(main.getPowerUps());
 			if (main.isGameOver()) {
 				g.drawImage(gameOver, 0, 0, null);
 			}
@@ -196,21 +200,21 @@ public class DrawGraphics extends MainGame {
 				g.drawString("Level: " + MainGame.getLevel(), 20, 20);
 
 				g.drawImage(lives, null, WIDTH - 80, 5);
-				g.drawString("x" + "    " + main.lives, WIDTH - 50, 20);
+				g.drawString("x" + "    " + main.getLives(), WIDTH - 50, 20);
 				g.drawString(
 						"Accuracy: " + Math.round(firstPlayer.getAccuracy())
 								+ "%", 20, 60);
 
-				if (shieldValue == 3) {
+				if (main.getShieldValue() == 3) {
 					g.drawImage(shield33, null, WIDTH - 95, 30);
 				}
-				if (shieldValue == 2) {
+				if (main.getShieldValue() == 2) {
 					g.drawImage(shield23, null, WIDTH - 95, 30);
 				}
-				if (shieldValue == 1) {
+				if (main.getShieldValue() == 1) {
 					g.drawImage(shield13, null, WIDTH - 95, 30);
 				}
-				if (shieldValue == 0) {
+				if (main.getShieldValue() == 0) {
 					g.drawImage(shield03, null, WIDTH - 95, 30);
 				}
 			}
@@ -220,7 +224,7 @@ public class DrawGraphics extends MainGame {
 				g.drawString(
 						"Accuracy: " + Math.round(firstPlayer.getAccuracy())
 								+ "%", 12, 85);
-				if (main.livesCounter <= 0 && main.p2lives > 1) {
+				if (main.getLivesCounter() <= 0 && main.getP2Lives() > 1) {
 
 					g.drawString("PLAYER 1", 40, 570);
 					g.drawString("Press C to continue", 12, 590);
@@ -229,18 +233,18 @@ public class DrawGraphics extends MainGame {
 				g.drawString("Level: " + MainGame.getLevel(), WIDTH / 2, 20);
 
 				g.drawImage(lives, null, WIDTH - 775, 5);
-				g.drawString("x" + "    " + main.lives, WIDTH - 745, 20);
+				g.drawString("x" + "    " + main.getLives(), WIDTH - 745, 20);
 
-				if (shieldValue == 3) {
+				if (main.getShieldValue() == 3) {
 					g.drawImage(shield33, null, WIDTH - 790, 30);
 				}
-				if (shieldValue == 2) {
+				if (main.getShieldValue() == 2) {
 					g.drawImage(shield23, null, WIDTH - 790, 30);
 				}
-				if (shieldValue == 1) {
+				if (main.getShieldValue() == 1) {
 					g.drawImage(shield13, null, WIDTH - 790, 30);
 				}
-				if (shieldValue == 0) {
+				if (main.getShieldValue() == 0) {
 					g.drawImage(shield03, null, WIDTH - 790, 30);
 				}
 
@@ -249,62 +253,62 @@ public class DrawGraphics extends MainGame {
 				g.drawString(
 						"Accuracy: " + Math.round(secondPlayer.getAccuracy())
 								+ "%", WIDTH - 92, 85);
-				if (main.p2livesCounter <= 0 && main.lives > 1) {
+				if (main.getP2LivesCounter() <= 0 && main.getLives() > 1) {
 
 					g.drawString("PLAYER 2", WIDTH - 90, 570);
 					g.drawString("Press C to continue", WIDTH - 120, 590);
 				}
 
 				g.drawImage(p2lives, null, WIDTH - 80, 5);
-				g.drawString("x" + "    " + main.p2lives, WIDTH - 50, 20);
+				g.drawString("x" + "    " + main.getP2Lives(), WIDTH - 50, 20);
 
 				// accuracy p2
-				if (p2shieldValue == 3) {
+				if (main.getP2shieldValue() == 3) {
 					g.drawImage(shield33, null, WIDTH - 95, 30);
 				}
-				if (p2shieldValue == 2) {
+				if (main.getP2shieldValue() == 2) {
 					g.drawImage(shield23, null, WIDTH - 95, 30);
 				}
-				if (p2shieldValue == 1) {
+				if (main.getP2shieldValue() == 1) {
 					g.drawImage(shield13, null, WIDTH - 95, 30);
 				}
-				if (p2shieldValue == 0) {
+				if (main.getP2shieldValue() == 0) {
 					g.drawImage(shield03, null, WIDTH - 95, 30);
 				}
 			}
-			if (firstPlayer.getShotLevel() == 3 && shot3Ammo > 0) {
+			if (firstPlayer.getShotLevel() == 3 && main.getShot3Ammo() > 0) {
 				g.setColor(Color.orange);
-				g.drawString("Ammo: " + shot3Ammo,
+				g.drawString("Ammo: " + main.getShot3Ammo(),
 						(int) firstPlayer.getX() - 25,
 						(int) firstPlayer.getY() + 35);
 			}
-			if (secondPlayer.getShotLevel() == 3 && shot3Ammo2 > 0) {
+			if (secondPlayer.getShotLevel() == 3 && main.getShot3Ammo2() > 0) {
 				g.setColor(Color.orange);
-				g.drawString("Ammo: " + shot3Ammo2,
+				g.drawString("Ammo: " + main.getShot3Ammo2(),
 						(int) secondPlayer.getX() - 25,
 						(int) secondPlayer.getY() + 35);
 			}
 
-			if (Explosion.active) {
-				explosion.playExplosion(g, explosionFrames, boomX, boomY);
+			if (explosion.getActive()) {
+				explosion.playExplosion(g, explosionFrames, main.getBoomX(), main.getBoomY());
 			}
-			if (Explosion.active2) {
-				explosion.playExplosion2(g, explosionFrames, boomX2, boomY2);
+			if (explosion.getActive2()) {
+				explosion.playExplosion2(g, explosionFrames, main.getBoomX2(), main.getBoomY2());
 			}
-			if (Explosion.Astactive) {
-				Astexplosion.playAstExplosion(g, AstexplosionFrames, boomAstX,
-						boomAstY);
+			if (explosion.getAstActive()) {
+				explosion.playAstExplosion(g, astExplosionFrames, main.getBoomAstX(),
+						main.getBoomAstY());
 			}
-			if (Explosion.Astactive2) {
-				explosion.playAstExplosion2(g, explosionFrames, boomAstX1,
-						boomAstY1);
+			if (explosion.getAstActive2()) {
+				explosion.playAstExplosion2(g, explosionFrames, main.getBoomAstX1(),
+						main.getBoomAstY1());
 			}
-			if (Explosion.UFOactive) {
-				explosion.playUFOExplosion(g, explosionFrames, boomUFOX,
-						boomUFOY);
+			if (explosion.getUfoActive()) {
+				explosion.playUFOExplosion(g, explosionFrames, main.getBoomUFOX(),
+						main.getBoomUFOY());
 			}
-			if (Explosion.UFOactiveHit) {
-				explosion.playUFOHit(g, AstexplosionFrames, boomUFOX, boomUFOY);
+			if (explosion.getUfoActiveHit()) {
+				explosion.playUFOHit(g, astExplosionFrames, main.getBoomUFOX(), main.getBoomUFOY());
 			}
 			gfx.drawImage(img, 0, 0, this);
 
@@ -319,7 +323,7 @@ public class DrawGraphics extends MainGame {
 		targetAng = (float) getTargetAngle(
 				firstPlayer.getX() - player1.getWidth() / 2 + 3,
 				firstPlayer.getY() - player1.getHeight() / 2,
-				EventHandler.mouseX, EventHandler.mouseY);
+				handler.getMouseX(), handler.getMouseY());
 
 
 		if (main.isMouse()) {
@@ -468,6 +472,29 @@ public class DrawGraphics extends MainGame {
 		double dy = targetY - e;
 
 		return (float) (Math.atan2(dy, dx));
+	}
+
+	public BufferedImage getAsteroid1() {
+		return asteroid1;
+	}
+
+	public BufferedImage getUfo() {
+		return ufo;
+	}
+
+	public Image getExplosionFrames(int i) {
+		return explosionFrames[i];
+	}
+
+	public BufferedImage getAsteroid3() {
+		return asteroid3;
+	}
+
+
+
+
+	public BufferedImage getPlayer1() {
+		return player1;
 	}
 
 }

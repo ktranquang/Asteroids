@@ -7,15 +7,25 @@ import java.awt.*;
 public class Explosion {
 	private int numFrames = 23;
 	private int currentFrame = 0;
-	public static boolean active = false;
-	public static boolean active2 = false;
+    private boolean active = false;
+	private boolean active2 = false;
 
 	private int numAstFrames = 4;
 	private int currentAstFrame = 0;
-	public static boolean Astactive = false;
-	public static boolean Astactive2 = false;
-	public static boolean UFOactive = false;
-	public static boolean UFOactiveHit = false;
+	private boolean astActive = false;
+
+	public void setAstActive2(boolean astActive2) {
+		this.astActive2 = astActive2;
+	}
+
+	private boolean astActive2 = false;
+	private boolean ufoActive = false;
+	private boolean ufoActiveHit = false;
+
+	public  boolean getAstActive2() {
+		return astActive2;
+	}
+
 
 	// explosion animation for ship collision
 	public void playExplosion(Graphics g, Image[] frames, double x, double y) {
@@ -43,7 +53,7 @@ public class Explosion {
 		currentFrame++;
 		if (currentFrame >= numFrames) {
 			currentFrame = 0;
-			Astactive2 = false;
+			astActive2 = false;
 		}
 	}
 
@@ -53,7 +63,7 @@ public class Explosion {
 		currentAstFrame++;
 		if (currentAstFrame >= numAstFrames) {
 			currentAstFrame = 0;
-			UFOactiveHit = false;
+			ufoActiveHit = false;
 		}
 	}
 
@@ -63,7 +73,7 @@ public class Explosion {
 		currentAstFrame++;
 		if (currentAstFrame >= numAstFrames) {
 			currentAstFrame = 0;
-			Astactive = false;
+			astActive = false;
 		}
 	}
 
@@ -73,8 +83,47 @@ public class Explosion {
 		currentFrame++;
 		if (currentFrame >= numFrames) {
 			currentFrame = 0;
-			UFOactive = false;
+			ufoActive = false;
 		}
 	}
 
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public void setActive2(boolean active2) {
+		this.active2 = active2;
+	}
+
+	public void setAstActive(boolean astActive) {
+		this.astActive = astActive;
+	}
+
+	public void setUfoActiveHit(boolean ufoActiveHit) {
+		this.ufoActiveHit = ufoActiveHit;
+	}
+
+	public void setUfoActive(boolean ufoActive) {
+		this.ufoActive = ufoActive;
+	}
+
+	public boolean getActive() {
+		return active;
+	}
+
+	public boolean getActive2() {
+		return active2;
+	}
+
+	public boolean getAstActive() {
+		return astActive;
+	}
+
+	public boolean getUfoActive() {
+		return ufoActive;
+	}
+
+	public boolean getUfoActiveHit() {
+		return ufoActiveHit;
+	}
 }

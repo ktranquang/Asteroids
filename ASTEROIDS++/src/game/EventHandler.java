@@ -13,8 +13,17 @@ public class EventHandler extends MainGame implements ActionListener,
 	private Spaceship player1;
 	private Spaceship player2;
 	private MainGame main;
-	public static int mouseX = 0;
-	public static int mouseY = 0;
+
+	public int getMouseX() {
+		return mouseX;
+	}
+
+	public int getMouseY() {
+		return mouseY;
+	}
+
+	private int mouseX = 0;
+	private int mouseY = 0;
 	private Randomizer r = new Randomizer();
 
 	// Passes information from the method into the variables of this class
@@ -29,14 +38,14 @@ public class EventHandler extends MainGame implements ActionListener,
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Single Player")) {
 			main.setGamePaused(false);
-			bg.loop();
+			main.getBg().loop();
 			music = true;
 
 		} else if (e.getActionCommand().equals("Multiplayer")) {
 			main.setMultiPlayer(true);
 			main.setGamePaused(false);
 			main.setMouse(false);
-			bg.loop();
+			main.getBg().loop();
 			music = true;
 		} else if (e.getActionCommand().equals("Options")) {
 			main.setShowMainMenu(false);
@@ -50,16 +59,16 @@ public class EventHandler extends MainGame implements ActionListener,
 			main.setShowHelpMenu(false);
 			main.setShowMainMenu(true);
 		} else if (e.getActionCommand().equals("Resume")) {
-			bg.loop();
+			main.getBg().loop();
 			main.setGamePaused(false);
 			main.setShowPauseMenu(false);
 		} else if (e.getActionCommand().equals("Quit")) {
-			bg.stop();
-			gameOver = false;
-			lives = 3;
-			p2lives = 3;
-			shieldValue = 3;
-			p2shieldValue = 3;
+			main.getBg().stop();
+			main.setGameOver(false);
+			main.setLives(3);
+			main.setP2Lives(3);
+			main.setShieldValue(3);
+			main.setP2ShieldValue(3);
 			main.setShowPauseMenu(false);
 			main.setShowMainMenu(true);
 			main.initializeGame();
@@ -81,8 +90,8 @@ public class EventHandler extends MainGame implements ActionListener,
 		// activate or deactivate pause menu
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			if (!main.isGamePaused()) {
-				pause.play();
-				bg.stop();
+				main.getPause().play();
+				main.getBg().stop();
 				main.setGamePaused(true);
 				main.setShowPauseMenu(true);
 			}
@@ -94,8 +103,8 @@ public class EventHandler extends MainGame implements ActionListener,
 			} else if (event.getKeyCode() == KeyEvent.VK_S) {
 
 				// Randomly generate new ship location
-				hyper.play();
-				main.firstPlayer.setLocation(r.nextDouble(0,800),(double)r.nextDouble(0,600));
+				main.getHyper().play();
+				main.getFirstPlayer().setLocation(r.nextDouble(0,800),(double)r.nextDouble(0,600));
 			}
 		} else {
 			if (event.getKeyCode() == KeyEvent.VK_UP) {
@@ -108,37 +117,37 @@ public class EventHandler extends MainGame implements ActionListener,
 				main.setPlayer1Shooting(true);
 			} else if (event.getKeyCode() == KeyEvent.VK_DOWN) {
 					// Randomly generate new ship location
-					hyper.play();
-					main.firstPlayer.setLocation(r.nextDouble(0,800),(double)r.nextDouble(0,600));
+					main.getHyper().play();
+				main.getFirstPlayer().setLocation(r.nextDouble(0,800),(double)r.nextDouble(0,600));
 			}
 			// second player
 			if (main.isMultiPlayer()) {
-				if (main.livesCounter <= 0 && main.p2lives > 1) {
+				if (main.getLivesCounter() <= 0 && main.getP2Lives() > 1) {
 					if (event.getKeyCode() == KeyEvent.VK_C) {
-						main.lives++;
-						main.p2lives--;
-						main.livesCounter = 1;
+						main.setLives(main.getLives()+1);
+						main.setP2Lives(main.getP2Lives()-1);
+						main.setLivesCounter(1);
 
 					}
 				}
-				if (main.p2livesCounter <= 0 && main.lives > 1) {
+				if (main.getP2livesCounter() <= 0 && main.getLives() > 1) {
 					if (event.getKeyCode() == KeyEvent.VK_C) {
-						main.p2lives++;
-						main.lives--;
-						main.p2livesCounter = 1;
+						main.setP2Lives(main.getP2Lives()+1);
+						main.setLives(main.getLives()-1);
+						main.setP2LivesCounter(1);
 
 					}
 				}
 				if (event.getKeyCode() == KeyEvent.VK_W) {
 					player2.setAccelerating(true);
-					boost.play();
+					main.getBoost().play();
 				} else if (event.getKeyCode() == KeyEvent.VK_D) {
 					player2.setTurningRight(true);
 				} else if (event.getKeyCode() == KeyEvent.VK_A) {
 					player2.setTurningLeft(true);
 				} else if (event.getKeyCode() == KeyEvent.VK_S){
-					hyper.play();
-					main.secondPlayer.setLocation(r.nextDouble(0,800),(double)r.nextDouble(0,600));
+					main.getHyper().play();
+					main.getSecondPlayer().setLocation(r.nextDouble(0,800),(double)r.nextDouble(0,600));
 				}
 				else if (event.getKeyCode() == KeyEvent.VK_SHIFT) {
 					main.setPlayer2Shooting(true);
@@ -159,37 +168,37 @@ public class EventHandler extends MainGame implements ActionListener,
 		if (event.getKeyCode() == KeyEvent.VK_M) // FIX
 		{
 			if (music = true) {
-				bg.stop();
+				main.getBg().stop();
 				music = false;
 			} else {
-				bg.loop();
+				main.getBg().loop();
 			}
 		}
 
 		// SHIELD TEST
 		if (event.getKeyCode() == KeyEvent.VK_Z) // FIX
 		{
-			MainGame.shieldUp.play();
-			shieldValue = 3;
+			main.getShieldUp().play();
+			main.setShieldValue(3);
 		}
 		if (event.getKeyCode() == KeyEvent.VK_X) // FIX
 		{
-			if (shieldValue != 0) {
-				MainGame.shieldHit.play();
-				shieldValue--;
+			if (main.getShieldValue() != 0) {
+				main.getShieldHit().play();
+				main.setShieldValue(main.getShieldValue()-1);
 			}
-			if (shieldValue == 0) {
-				MainGame.shieldDown.play();
-				shieldValue--;
+			if (main.getShieldValue() == 0) {
+				main.getShieldDown().play();
+				main.setShieldValue(main.getShieldValue()-1);
 			}
 		}
 		if (event.getKeyCode() == KeyEvent.VK_N) {
-			bg.loop();
+			main.getBg().loop();
 		}
 
 		// If ship is moving, play thrusters sound
 		if (player1.isAccelerating()) {
-			boost.play();
+			main.getBoost().play();
 		}
 	}
 
@@ -198,7 +207,7 @@ public class EventHandler extends MainGame implements ActionListener,
 		if (main.isMouse()) {
 			if (event.getKeyCode() == KeyEvent.VK_W) {
 				player1.setAccelerating(false);
-				boost.stop();
+				main.getBoost().stop();
 			}
 
 			else if (event.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -207,7 +216,7 @@ public class EventHandler extends MainGame implements ActionListener,
 		} else {
 			if (event.getKeyCode() == KeyEvent.VK_UP) {
 				player1.setAccelerating(false);
-				boost.stop();
+				main.getBoost().stop();
 			} else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
 				player1.setTurningRight(false);
 			} else if (event.getKeyCode() == KeyEvent.VK_LEFT) {
