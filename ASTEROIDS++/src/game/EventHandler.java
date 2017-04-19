@@ -9,13 +9,13 @@ public class EventHandler extends MainGame implements ActionListener,
 		KeyListener, MouseListener, MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
-	boolean music = false;
+	private boolean music = false;
 	private Spaceship player1;
 	private Spaceship player2;
 	private MainGame main;
 	public static int mouseX = 0;
 	public static int mouseY = 0;
-	Randomizer r = new Randomizer();
+	private Randomizer r = new Randomizer();
 
 	// Passes information from the method into the variables of this class
 	public EventHandler(Spaceship player1, Spaceship player2, MainGame main) {

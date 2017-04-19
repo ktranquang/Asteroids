@@ -4,8 +4,8 @@ package movable;
 public class Shot extends MovableObject {
 
 	private static final long serialVersionUID = 1L;
-	int shotLife;
-	double angle;
+	private int shotLife;
+	private double angle;
 	private int type;
 	private int player;
 

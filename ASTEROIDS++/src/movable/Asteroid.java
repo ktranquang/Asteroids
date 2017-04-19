@@ -6,10 +6,10 @@ import java.util.Random;
 public class Asteroid extends MovableObject {
 
 	private static final long serialVersionUID = 1L;
-	public int shotsLeft;
+	private int shotsLeft;
 	private int splitNum;
 	private double astAng = 0;
-	public int type;
+    private int type;
 
 	// constructor
 	public Asteroid(double x, double y, double radius, double vel,

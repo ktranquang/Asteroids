@@ -5,18 +5,19 @@ package movable;
 public class Spaceship extends MovableObject {
 
 	private static final long serialVersionUID = 1L;
-	public double theta;
-	public double xVelocity;
-	public double yVelocity;
-	double acceleration;
-	double deceleration;
-	double rotationalSpeed;
-	public static int shotDelay;
-	int shotDelayLeft = 0;
-	boolean turningRight = false;
-	boolean turningLeft = false;
-	boolean accelerating = false;
-	double ufoAng = 0;
+	private double theta;
+	private double xVelocity;
+	private double yVelocity;
+	private double acceleration;
+	private double deceleration;
+	private double rotationalSpeed;
+
+	private int shotDelay;
+	private int shotDelayLeft = 0;
+	private boolean turningRight = false;
+	private boolean turningLeft = false;
+	private boolean accelerating = false;
+	private double ufoAng = 0;
 	private int shotLevel;
 	private int playerNumber;
 	private int score = 0;
@@ -198,4 +199,11 @@ public class Spaceship extends MovableObject {
 	public void addScore(int points) {
 		setScore(getScore() + points);
 	}
+
+	public void setShotDelay(int shotDelay) {
+		this.shotDelay = shotDelay;
+	}
+
+
 }
+

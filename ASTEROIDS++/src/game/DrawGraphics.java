@@ -323,7 +323,7 @@ public class DrawGraphics extends MainGame {
 
 
 		if (main.isMouse()) {
-			firstPlayer.theta = -targetAng - PI / 2;
+			firstPlayer.setTheta(-targetAng - PI / 2);
 		}
 
 	}
@@ -402,7 +402,7 @@ public class DrawGraphics extends MainGame {
 	private void drawShot(Shot shot, BufferedImage image) {
 		AffineTransform affineTransform = new AffineTransform();
 
-		Spaceship.shotDelay = 12;
+		firstPlayer.setShotDelay(12);
 		affineTransform.translate(shot.getX() - image.getWidth() / 2,
 				shot.getY() - image.getHeight() / 2);
 		affineTransform.rotate(-shot.getTheta(), image.getWidth() / 2,
@@ -421,7 +421,7 @@ public class DrawGraphics extends MainGame {
 			drawShot(shot, dbLaserr);
 		} else if (shot.getType() == 3) {
 			AffineTransform affineTransform = new AffineTransform();
-			Spaceship.shotDelay = 20;
+			firstPlayer.setShotDelay(20);
 			affineTransform.translate(shot.getX() - penLaser.getWidth() / 2,
 					shot.getY() - penLaser.getHeight() / 2);
 			affineTransform.rotate(-shot.getTheta(), penLaser.getWidth() / 2,

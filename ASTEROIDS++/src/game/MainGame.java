@@ -31,7 +31,7 @@ public class MainGame extends Applet implements Runnable {
 	Graphics g;
 	private long endTime, startTime, framePeriod;
 
-	public Spaceship firstPlayer;
+	Spaceship firstPlayer;
 	Spaceship secondPlayer;
 	private ArrayList<Spaceship> UFOs;
 
@@ -689,7 +689,7 @@ public class MainGame extends Applet implements Runnable {
 					boomAstY = asteroid.getY() - 30;
 					Explosion.Astactive = true;
 
-					if (asteroid.type == 1) {
+					if (asteroid.getType() == 1) {
 						if (shot.getPlayer() == 1) {
 							firstPlayer.addScore(BIG_POINTS);
 						}
@@ -698,7 +698,7 @@ public class MainGame extends Applet implements Runnable {
 						}
 					}
 
-					if (asteroid.type == 2) {
+					if (asteroid.getType() == 2) {
 						if (shot.getPlayer() == 1) {
 							firstPlayer.addScore(MED_POINTS);
 						}
@@ -706,7 +706,7 @@ public class MainGame extends Applet implements Runnable {
 							secondPlayer.addScore(MED_POINTS);
 						}
 					}
-					if (asteroid.type == 3) {
+					if (asteroid.getType() == 3) {
 						if (shot.getPlayer() == 1) {
 							firstPlayer.addScore(SMALL_POINTS);
 						}
@@ -926,12 +926,12 @@ public class MainGame extends Applet implements Runnable {
 		return shotLevelp1;
 	}
 
-	public static void setShotLevelp1(int shotLevelp1) {
+	public void setShotLevelp1(int shotLevelp1) {
 		MainGame.shotLevelp1 = shotLevelp1;
 		if (shotLevelp1 == 3) {
-			Spaceship.shotDelay = 20;
+			firstPlayer.setShotDelay(20);
 		} else {
-			Spaceship.shotDelay = 12;
+			firstPlayer.setShotDelay(12);
 		}
 	}
 
