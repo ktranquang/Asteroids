@@ -281,7 +281,7 @@ public class MainGame extends Applet implements Runnable {
 		addMouseListener(eventHandler);
 		addMouseMotionListener(eventHandler);
 		graphics = new DrawGraphics(img, firstPlayer, secondPlayer, shots,
-				asteroids, UFOs, ufoShots, this, eventHandler);
+				asteroids, UFOs, ufoShots, this, eventHandler, this.explosion);
 	}
 
 	// creates the specified number of asteroids in the playing field

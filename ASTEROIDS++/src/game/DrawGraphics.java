@@ -83,7 +83,7 @@ public class DrawGraphics extends MainGame {
 	public DrawGraphics(Image img, Spaceship firstPlayer,
 			Spaceship secondPlayer, ArrayList<Shot> shots,
 			ArrayList<Asteroid> asteroids, ArrayList<Spaceship> UFOs,
-			ArrayList<Shot> ufoShots, MainGame main, EventHandler handler) {
+			ArrayList<Shot> ufoShots, MainGame main, EventHandler handler, Explosion explosion) {
 		this.img = img;
 		g = (Graphics2D) img.getGraphics();
 		this.main = main;
@@ -93,7 +93,7 @@ public class DrawGraphics extends MainGame {
 		this.asteroids = asteroids;
 		this.UFOs = UFOs;
 		this.ufoShots = ufoShots;
-		this.explosion = new Explosion();
+		this.explosion = explosion;
 		this.handler = handler;
 		loadImages();
 	}
